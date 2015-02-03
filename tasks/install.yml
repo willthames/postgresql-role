@@ -3,13 +3,12 @@
 - name: Install | Make sure dependencies are installed
   yum: name=python-psycopg2 state=present
 
-
-- name: Install | Add PostgreSQL repository
-  yum: name={{ pgsql_repo }} state=present
-
+- name: Install | Install pgtune if available (requires epel to succeed)
+  yum: name=pgtune state=present
+  ignore_errors: True
 
 - name: Install postgresql db packages
   yum: name={{ item }} state=present
   with_items:
-    - postgresql{{ postgresql_version|replace('.', '') }}-server
-    - postgresql{{ postgresql_version|replace('.', '') }}-contrib
+    - postgresql-server
+    - postgresql-contrib

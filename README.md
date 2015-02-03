@@ -44,7 +44,7 @@ postgresql_user_privileges:
 Dependencies
 ------------
 
-No other roles are needed.
+If you want to use pgtune, you should add epel to your `repos_extra` list.
 
 Example Playbook
 -------------------------

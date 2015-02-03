@@ -5,7 +5,6 @@
 pgsql_repo: 'http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-redhat93-9.3-1.noarch.rpm'
 
 # Basic settings
-postgresql_version: 9.3
 postgresql_encoding: 'UTF-8'
 postgresql_locale: 'en_US.UTF-8'
 
