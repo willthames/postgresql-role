@@ -18,21 +18,21 @@ postgresql_cluster_reset: false          # true or false
 
 
 # List of database to be created (optional)
-postgresql_databases: #[]                # Remove [] When adding a database and uncomment name, hstore
-              - name: zabbix
-                hstore: yes            # flag to install the hstore extensions on this database (yes/no)
+postgresql_databases: []                # Remove [] When adding a database and uncomment name, hstore
+#              - name: zabbix
+#                hstore: yes            # flag to install the hstore extensions on this database (yes/no)
 
 # List of users to be created (optional)
-postgresql_users: #[]                    # Remove [] When adding a database and uncomment name, pass, encrypted
-              - name: zabbix
-                pass: zabbix
-                encrypted: no          # Is password already encrypted (yes/no)
+postgresql_users: []                    # Remove [] When adding a database and uncomment name, pass, encrypted
+#              - name: zabbix
+#                pass: zabbix
+#                encrypted: no          # Is password already encrypted (yes/no)
 
 # List of user privileges to be applied (optional)
-postgresql_user_privileges: #[]          # Remove [] When adding a database and uncomment name, db, priv
-              - name: zabbix           # Username
-                db: zabbix             # Database
-                priv: "ALL"            # Privilege string format: example: INSERT,UPDATE/table:SELECT/anothertable:ALL
+postgresql_user_privileges: []          # Remove [] When adding a database and uncomment name, db, priv
+#              - name: zabbix           # Username
+#                db: zabbix             # Database
+#                priv: "ALL"            # Privilege string format: example: INSERT,UPDATE/table:SELECT/anothertable:ALL
 
 # pg_hba.conf
 postgresql_pg_hba_default:
@@ -53,13 +53,13 @@ postgresql_pg_hba_custom: []
 #------------------------------------------------------------------------------
 
 # Location of postgres configuration files here
-postgresql_conf_directory: "/var/lib/pgsql/{{postgresql_version}}/{{postgresql_cluster_name}}"
+postgresql_conf_directory: "/var/lib/pgsql/{{postgresql_cluster_name}}"
 # HBA (Host Based Authentication) file
 postgresql_hba_file: "{{postgresql_conf_directory}}/pg_hba.conf"
 # Ident configuration file
 postgresql_ident_file: "{{postgresql_conf_directory}}/pg_ident.conf"
 # Use data in another directory
-postgresql_data_directory: "/var/lib/pgsql/{{postgresql_version}}/{{postgresql_cluster_name}}"
+postgresql_data_directory: "/var/lib/pgsql/{{postgresql_cluster_name}}"
 # If external_pid_file is not explicitly set, on extra PID file is written
 postgresql_external_pid_file: "/var/run/{{postgresql_version}}-{{postgresql_cluster_name}}.pid"
 

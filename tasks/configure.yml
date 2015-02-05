@@ -1,7 +1,7 @@
 # Config file for PostgreSQL
 
 - name: Config | Stop the Cluster
-  command: service postgresql{{ join_char | default("-")}}{{ postgresql_version }} stop
+  command: service postgresql stop
   when: postgresql_cluster_reset
 
 - name: Config | Reset the cluster - drop the existing one
@@ -9,7 +9,7 @@
   when: postgresql_cluster_reset
 
 - name: Config | Reset the cluster - create a new one (with specified encoding and locale)
-  command: service postgresql{{ join_char | default("-")}}{{ postgresql_version }} initdb {{postgresql_cluster_name}}
+  command: service postgresql initdb {{postgresql_cluster_name}}
   notify: restart postgresql
   when: postgresql_cluster_reset
 
@@ -18,15 +18,15 @@
   register: data_dir
 
 - name: Initialise Postgresql Database if it is not
-  command: service postgresql{{ join_char | default("-")}}{{ postgresql_version }} initdb {{postgresql_cluster_name}}
+  command: service postgresql initdb {{postgresql_cluster_name}}
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '6'
 
 - name: Initialise Postgresql Database on Centos/Rhel 7 if it is not
-  command: /usr/pgsql-{{ postgresql_version }}/bin/postgresql{{ postgresql_version|replace('.','') }}-setup initdb
+  command: postgresql-setup initdb
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '7'
 
 - name: Ensure PostgreSQL is running
-  service: name=postgresql{{ join_char | default("-")}}{{ postgresql_version }} state=started enabled=yes
+  service: name=postgresql state=started enabled=yes
   notify:
     - restart postgresql
 
@@ -47,6 +47,6 @@
     mode: 0640
 
 - name: Reload The PostgreSQL Configuration
-  command: service postgresql{{ join_char | default("-")}}{{ postgresql_version }} restart
+  command: service postgresql restart
 
 
