@@ -1,5 +1,4 @@
 # Config file for PostgreSQL
-
 - name: Config | Stop the Cluster
   command: service postgresql stop
   when: postgresql_cluster_reset
@@ -12,6 +11,10 @@
   command: service postgresql initdb {{postgresql_cluster_name}}
   notify: restart postgresql
   when: postgresql_cluster_reset
+
+- name: Install service file on Centos/Rhel 7
+  template: src="postgresql.service.j2" dest="/etc/systemd/system/postgresql.service"
+  when: ansible_distribution_major_version == '7'
 
 - name: Check whether the data directory is already there
   stat: path={{ postgresql_data_directory }}/base
