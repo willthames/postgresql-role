@@ -13,7 +13,7 @@ socket_postgresql_default_auth_method: "trust"
 ipv4_postgresql_default_auth_method: "trust"
 ipv6_postgresql_default_auth_method: "trust"
 
-postgresql_cluster_name: "data"
+postgresql_cluster_name: "main"
 postgresql_cluster_reset: false          # true or false
 
 
@@ -53,13 +53,13 @@ postgresql_pg_hba_custom: []
 #------------------------------------------------------------------------------
 
 # Location of postgres configuration files here
-postgresql_conf_directory: "/var/lib/pgsql/{{postgresql_cluster_name}}"
+postgresql_conf_directory: "/var/lib/pgsql/data/{{postgresql_cluster_name}}"
 # HBA (Host Based Authentication) file
 postgresql_hba_file: "{{postgresql_conf_directory}}/pg_hba.conf"
 # Ident configuration file
 postgresql_ident_file: "{{postgresql_conf_directory}}/pg_ident.conf"
 # Use data in another directory
-postgresql_data_directory: "/var/lib/pgsql/{{postgresql_cluster_name}}"
+postgresql_data_directory: "/var/lib/pgsql/data/{{postgresql_cluster_name}}"
 # If external_pid_file is not explicitly set, on extra PID file is written
 postgresql_external_pid_file: "/var/run/{{postgresql_version}}-{{postgresql_cluster_name}}.pid"
 
