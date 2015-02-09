@@ -180,7 +180,7 @@ archive_timeout = {{postgresql_archive_timeout}}
 
 max_wal_senders    = {{postgresql_max_wal_senders}}
 wal_keep_segments  = {{postgresql_wal_keep_segments}}
-wal_sender_timeout = {{postgresql_wal_sender_timeout}}
+replication_timeout = {{postgresql_wal_sender_timeout}}
 
 
 # - Master Server -
@@ -197,7 +197,8 @@ max_standby_archive_delay = {{postgresql_max_standby_archive_delay}}
 max_standby_streaming_delay = {{postgresql_max_standby_streaming_delay}}
 wal_receiver_status_interval = {{postgresql_wal_receiver_status_interval}}
 hot_standby_feedback = {{'on' if postgresql_hot_standby_feedback or 'off'}}
-wal_receiver_timeout = {{postgresql_wal_receiver_timeout}}
+# Not available until 9.3
+# wal_receiver_timeout = {{postgresql_wal_receiver_timeout}}
 
 
 #------------------------------------------------------------------------------
@@ -357,7 +358,8 @@ default_transaction_deferrable = {{'on' if postgresql_default_transaction_deferr
 session_replication_role       = '{{postgresql_session_replication_role}}'
 
 statement_timeout              = {{postgresql_statement_timeout}}
-lock_timeout                   = {{postgresql_lock_timeout}}
+# Not available until 9.3
+#lock_timeout                   = {{postgresql_lock_timeout}}
 vacuum_freeze_min_age          = {{postgresql_vacuum_freeze_min_age}}
 vacuum_freeze_table_age        = {{postgresql_vacuum_freeze_table_age}}
 
@@ -435,15 +437,17 @@ restart_after_crash = {{'on' if postgresql_restart_after_crash else 'off'}}
 # These options allow settings to be loaded from files other than the
 # default postgresql.conf.
 
-include_dir = 'conf.d'                 # include files ending in '.conf' from
+# Not available until 9.3
+#include_dir = 'conf.d'                 # include files ending in '.conf' from
                                         # directory 'conf.d'
 #include_if_exists = 'exists.conf'      # include file only if it exists
-#include = 'special.conf'               # include file
-
+{% for pg_config_file in postgresql_extra_config_files %}
+include = 'conf.d/{{ pg_config_file }}'        # include file
+{% endfor %}
 
 #------------------------------------------------------------------------------
 # CUSTOMIZED OPTIONS
 #------------------------------------------------------------------------------
-
+ 
 # Add settings for extensions here
 

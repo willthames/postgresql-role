@@ -61,7 +61,7 @@ postgresql_ident_file: "{{postgresql_conf_directory}}/pg_ident.conf"
 # Use data in another directory
 postgresql_data_directory: "/var/lib/pgsql/data/{{postgresql_cluster_name}}"
 # If external_pid_file is not explicitly set, on extra PID file is written
-postgresql_external_pid_file: "/var/run/{{postgresql_version}}-{{postgresql_cluster_name}}.pid"
+postgresql_external_pid_file: "/var/lib/pgsql/{{postgresql_version}}-{{postgresql_cluster_name}}.pid"
 
 #------------------------------------------------------------------------------
 # CONNECTIONS AND AUTHENTICATION
@@ -75,7 +75,7 @@ postgresql_max_connections: 100
 postgresql_superuser_reserved_connections: 3
 
 postgresql_unix_socket_directories:
-  - /tmp
+  - /var/run/postgresql
 postgresql_unix_socket_group: ''
 postgresql_unix_socket_permissions: '0777' # begin with 0 to use octal notation
 
@@ -605,10 +605,8 @@ postgresql_exit_on_error: off
 # Reinitialize after backend crash?
 postgresql_restart_after_crash: on
 
-
-
-
 postgresql_env:
   LC_ALL: "{{ postgresql_locale }}"
   LC_LCTYPE: "{{ postgresql_locale }}"
 
+postgresql_extra_config_files: []
