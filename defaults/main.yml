@@ -1,4 +1,7 @@
 ---
+# Set this so that roles can check what DB engine is being used
+db_class: postgresql
+
 # defaults file for PostgreSQL
 
 # Basic settings
