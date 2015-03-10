@@ -1,13 +1,10 @@
 ---
-# Set this so that roles can check what DB engine is being used
-db_class: postgresql
-
 # defaults file for PostgreSQL
 
 # Basic settings
 pg_versions: { '6': '8.4', '7': '9.2' }
 
-postgresql_version: "{{pgversions[ansible_distribution_major_version]}}"
+postgresql_version: "{{pg_versions[ansible_distribution_major_version]}}"
 postgresql_encoding: 'UTF-8'
 postgresql_locale: 'en_US.UTF-8'
 

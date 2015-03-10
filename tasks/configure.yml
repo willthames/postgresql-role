@@ -40,6 +40,8 @@
     owner: "{{postgresql_admin_user}}"
     group: "{{postgresql_admin_user}}"
     mode: 0640
+  notify:
+    - restart postgresql
 
 - name: Configure | Update configuration - (postgresql.conf)
   template:
@@ -48,8 +50,8 @@
     owner: "{{postgresql_admin_user}}"
     group: "{{postgresql_admin_user}}"
     mode: 0640
+  notify:
+    - restart postgresql
 
-- name: Reload The PostgreSQL Configuration
-  command: service postgresql restart
-
-
+- name: Configure | DB restart should happen now if required
+  meta: flush_handlers
