@@ -48,6 +48,9 @@
   notify:
     - restart postgresql
 
+- include: ssl.yml
+  when: "postgresql_ssl != 'off'"
+
 - name: Configure | DB restart should happen now if required
   meta: flush_handlers
 

@@ -1,0 +1,20 @@
+- name: ensure ssl directory exists
+  file: state=directory path="{{postgresql_ssl_conf_dir}}" owner="postgres" mode="0755" group="postgres"
+
+- name: copy over ssl key
+  copy: src="{{item}}" dest="{{postgresql_ssl_key_file}}" mode="0600" owner="postgres" group="postgres"
+  first_available_file:
+    - "{{custom_httpd_ssl_key}}"
+    - "{{secret_repo}}/hosts/{{server_name}}/{{server_name}}.key"
+    - "{{secret_repo}}/hosts/{{inventory_hostname}}/{{inventory_hostname}}.key"
+  register: setup_ssl_key
+  ignore_errors: True
+
+- name: copy over ssl cert
+  copy: src="{{item}}" dest="{{postgresql_ssl_cert_file}}" owner="postgres" group="postgres"
+  first_available_file:
+    - "{{custom_httpd_ssl_crt}}"
+    - "{{secret_repo}}/hosts/{{server_name}}/{{server_name}}.crt"
+    - "{{secret_repo}}/hosts/{{inventory_hostname}}/{{inventory_hostname}}.crt"
+  register: setup_ssl_crt
+  ignore_errors: True
