@@ -12,3 +12,5 @@
   with_items:
     - postgresql-server
     - postgresql-contrib
+  notify:
+    - restart postgresql
