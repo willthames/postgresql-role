@@ -146,7 +146,7 @@ effective_io_concurrency = {{postgresql_effective_io_concurrency}}
 wal_level = {{postgresql_wal_level}}
 fsync = {{'on' if postgresql_fsync else 'off'}}
 
-synchronous_commit = {{postgresql_synchronous_commit}}
+synchronous_commit = {{'on' if postgresql_synchronous_commit else 'off'}}
 
 wal_sync_method = {{postgresql_wal_sync_method}}
 
@@ -181,7 +181,7 @@ archive_timeout = {{postgresql_archive_timeout}}
 
 max_wal_senders    = {{postgresql_max_wal_senders}}
 wal_keep_segments  = {{postgresql_wal_keep_segments}}
-replication_timeout = {{postgresql_wal_sender_timeout}}
+replication_timeout = {{postgresql_replication_timeout}}
 
 
 # - Master Server -
