@@ -102,6 +102,7 @@ postgresql_ssl_cert_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
 postgresql_ssl_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
 postgresql_ssl_ca_file: ''
 postgresql_ssl_crl_file: ''
+postgresql_ssl_conf_dir: /var/lib/pgsql/ssl
 postgresql_password_encryption: on
 postgresql_db_user_namespace: off
 
@@ -237,7 +238,7 @@ postgresql_archive_timeout: 0
 postgresql_max_wal_senders: 0
 
 postgresql_wal_keep_segments:  0    # in logfile segments, 16MB each; 0 disables
-postgresql_wal_sender_timeout: 60s  # in milliseconds; 0 disables
+postgresql_replication_timeout: 60s  # in milliseconds; 0 disables
 
 
 # - Master Server -
