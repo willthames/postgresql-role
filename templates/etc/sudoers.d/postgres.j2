@@ -1,0 +1,15 @@
+{% if (has_sudo is defined) and has_sudo %}
+{% for group in has_sudo %}
+%{{ group }} ALL=(postgres) ALL
+{% endfor %}
+{% endif %}
+{% if (ansible_distribution == "RedHat") and ansible_distribution_major_version | version_compare('7', '>=') %}
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl start postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl stop postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl restart postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl promote postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl disable postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl enable postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl reload postgresql
+postgres ALL=(root) NOPASSWD: /usr/bin/systemctl status postgresql
+{% endif %}
