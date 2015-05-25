@@ -7,12 +7,7 @@
   file: state=directory name="{{postgresql_data_directory}}/" owner="{{postgresql_admin_user}}" group="{{postgresql_admin_user}}" recurse=true
 
 - name: Config | Reset the cluster - drop the existing one
-  shell: rm -rf {{ postgresql_conf_directory }}
-  when: postgresql_cluster_reset
-
-- name: Config | Reset the cluster - create a new one (with specified encoding and locale)
-  command: service postgresql initdb {{postgresql_cluster_name}}
-  notify: restart postgresql
+  file: state=absent name={{ postgresql_conf_directory }}
   when: postgresql_cluster_reset
 
 - name: Install service file on Centos/Rhel 7
@@ -25,10 +20,12 @@
 
 - name: Initialise Postgresql Database if it is not
   command: service postgresql initdb {{postgresql_cluster_name}}
+  notify: restart postgresql
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '6'
 
 - name: Initialise Postgresql Database on Centos/Rhel 7 if it is not
   command: postgresql-setup initdb
+  notify: restart postgresql
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '7'
 
 - name: Configure | Update configuration - (pg_hba.conf)
