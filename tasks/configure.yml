@@ -3,6 +3,9 @@
   command: service postgresql stop
   when: postgresql_cluster_reset
 
+- name: Config | Ensure the parent data directory exists
+  file: state=directory name="{{postgresql_data_directory}}/" owner="{{postgresql_admin_user}}" group="{{postgresql_admin_user}}" recurse=true
+
 - name: Config | Reset the cluster - drop the existing one
   shell: rm -rf {{ postgresql_conf_directory }}
   when: postgresql_cluster_reset
