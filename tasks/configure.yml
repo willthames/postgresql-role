@@ -1,15 +1,25 @@
+- name: Config | tune kernel.shmmax
+  sysctl: name=kernel.shmmax value="{{postgresql_kernel_shmmax}}" reload=yes sysctl_set=yes state=present
+  when: postgresql_kernel_shmmax is defined
+  tags:
+  - core_config_updates
+
+- name: Config | tune kernel.shmall
+  sysctl: name=kernel.shmall value="{{postgresql_kernel_shmall}}" reload=yes sysctl_set=yes state=present
+  when: postgresql_kernel_shmall is defined
+  tags:
+  - core_config_updates
+
 # Config file for PostgreSQL
 - name: Config | Stop the Cluster
   command: service postgresql stop
   when: postgresql_cluster_reset
 
-- name: Config | Reset the cluster - drop the existing one
-  shell: rm -rf {{ postgresql_conf_directory }}
-  when: postgresql_cluster_reset
+- name: Config | Ensure the parent data directory exists
+  file: state=directory name="{{postgresql_data_directory}}/" owner="{{postgresql_admin_user}}" group="{{postgresql_admin_user}}" recurse=true
 
-- name: Config | Reset the cluster - create a new one (with specified encoding and locale)
-  command: service postgresql initdb {{postgresql_cluster_name}}
-  notify: restart postgresql
+- name: Config | Reset the cluster - drop the existing one
+  file: state=absent name={{ postgresql_conf_directory }}
   when: postgresql_cluster_reset
 
 - name: Install service file on Centos/Rhel 7
@@ -22,10 +32,12 @@
 
 - name: Initialise Postgresql Database if it is not
   command: service postgresql initdb {{postgresql_cluster_name}}
+  notify: restart postgresql
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '6'
 
 - name: Initialise Postgresql Database on Centos/Rhel 7 if it is not
   command: postgresql-setup initdb
+  notify: restart postgresql
   when: data_dir.stat.exists == false and ansible_distribution_major_version == '7'
 
 - name: Configure | Update configuration - (pg_hba.conf)
@@ -37,6 +49,8 @@
     mode: 0640
   notify:
     - restart postgresql
+  tags:
+    - core_config_updates
 
 - name: Configure | Update configuration - (postgresql.conf)
   template:
@@ -47,6 +61,8 @@
     mode: 0640
   notify:
     - restart postgresql
+  tags:
+    - core_config_updates
 
 - include: ssl.yml
   when: "postgresql_ssl != 'off'"
