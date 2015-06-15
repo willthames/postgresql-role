@@ -1,0 +1,7 @@
+# setup sudo access for has_sudo members.  Needs to be run prior to the first sudo postgres call
+
+  - name: add some postgres sudoers.d entries
+    template: src=etc/sudoers.d/{{item}}.j2 dest=/etc/sudoers.d/{{item}} validate="visudo -c -f %s"
+    with_items:
+      - postgres
+
